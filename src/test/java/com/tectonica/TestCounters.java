@@ -11,18 +11,31 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestCounters
 {
-	private static final String INCREMENT_URL = "http://gae-sharded-counters.appspot.com/v2?name=%s&action=increment";
-	private static final String GET_COUNT_URL = "http://gae-sharded-counters.appspot.com/v2?name=%s";
+	private static final String INCREMENT_URL = "http://gae-sharded-counters.appspot.com/%s?name=%s&action=increment";
+	private static final String GET_COUNT_URL = "http://gae-sharded-counters.appspot.com/%s?name=%s";
 
 	private static final int THREAD_COUNT = 10;
 	private static final int INC_PER_THREAD = 5;
 
 	@Test
-	public void test() throws Exception
+	public void testV2() throws Exception
+	{
+		test("v2");
+	}
+
+	@Test
+	@Ignore
+	public void testV3() throws Exception
+	{
+		test("v3");
+	}
+
+	private void test(final String version) throws InterruptedException
 	{
 		final String counterName = Long.toHexString(System.currentTimeMillis());
 
@@ -36,30 +49,30 @@ public class TestCounters
 				@Override
 				public void run()
 				{
-					increment(counterName, INC_PER_THREAD, threadName);
+					increment(version, counterName, INC_PER_THREAD, threadName);
 				}
 			});
 		}
 		exec.shutdown();
 		exec.awaitTermination(1, TimeUnit.HOURS);
 
-		int count = getCount(counterName);
+		int count = getCount(version, counterName);
 		int expected = THREAD_COUNT * INC_PER_THREAD;
 		System.out.println(String.format("Expected count = %d, Actual count = %d", expected, count));
 
 		Assert.assertEquals(expected, count);
 	}
 
-	private void increment(final String counterName, final int times, final String threadName)
+	private void increment(final String version, final String counterName, final int times, final String threadName)
 	{
-		String incUrl = String.format(INCREMENT_URL, counterName);
+		String incUrl = String.format(INCREMENT_URL, version, counterName);
 		for (int i = 0; i < times; i++)
 			System.out.println(threadName + " [" + i + "]: " + GET(incUrl));
 	}
 
-	private int getCount(final String counterName)
+	private int getCount(final String version, final String counterName)
 	{
-		final String getUrl = String.format(GET_COUNT_URL, counterName);
+		final String getUrl = String.format(GET_COUNT_URL, version, counterName);
 		return Integer.parseInt(GET(getUrl));
 	}
 
