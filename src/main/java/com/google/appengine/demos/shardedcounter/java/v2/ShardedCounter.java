@@ -234,6 +234,10 @@ public class ShardedCounter {
             LOG.log(Level.WARNING,
                     "You may need more shards. Consider adding more shards.");
             LOG.log(Level.WARNING, e.toString(), e);
+            
+            // Zach: this solves the concurrency issue (at a cost of potential dead end)
+            // It doesn't solve, however, the problem of returning the (unique) incremented value
+            incrementPropertyTx(key, prop, increment, initialValue);
         } catch (Exception e) {
             LOG.log(Level.WARNING, e.toString(), e);
         } finally {
