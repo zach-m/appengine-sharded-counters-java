@@ -1,7 +1,5 @@
-*.class
-.settings
-
-# Package Files #
-*.jar
-*.war
-*.ear
+target/
+.settings/
+.project
+.classpath
+WEB-INF/appengine-generated/*
