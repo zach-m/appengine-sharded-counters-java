@@ -45,7 +45,7 @@ public class V2Servlet extends HttpServlet {
             counter.addShards(inc);
             resp.getWriter().println("Shard count increased by " + inc + ".");
         } else {
-            resp.getWriter().println("getCount() -> " + counter.getCount());
+            resp.getWriter().println("" + counter.getCount());
         }
     }
 }
