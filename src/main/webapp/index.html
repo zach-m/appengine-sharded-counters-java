@@ -7,25 +7,20 @@
 
 <body>
 
-  <h1>ShardedCounterV1:</h1>
-  <ul>
-    <li><a target="output" href="/v1">counter.getCount()</a></li>
-    <li><a target="output" href="/v1?action=increment">counter.increment()</a>
-    </li>
-  </ul>
+	<h1>ShardedCounterV1:</h1>
+	<ul>
+		<li><a target="output" href="/v1">counter.getCount()</a></li>
+		<li><a target="output" href="/v1?action=increment">counter.increment()</a></li>
+	</ul>
 
-  <h1>ShardedCounterV2:</h1>
-  <ul>
-    <li><a target="output" href="/v2?name=output">counter.getCount()</a>
-    </li>
-    <li><a target="output" href="/v2?name=output&action=increment">counter.increment()</a>
-    </li>
-    <li><a target="output"
-      href="/v2?name=output&action=increase_shards&shards=5">counter.addShards(5)</a>
-    </li>
-  </ul>
+	<h1>ShardedCounterV2:</h1>
+	<ul>
+		<li><a target="output" href="/v2?name=output">counter.getCount()</a></li>
+		<li><a target="output" href="/v2?name=output&action=increment">counter.increment()</a></li>
+		<li><a target="output" href="/v2?name=output&action=increase_shards&shards=5">counter.addShards(5)</a></li>
+	</ul>
 
-  <h1>Output:</h1>
-  <iframe id="output"></iframe>
+	<h1>Output:</h1>
+	<iframe id="output"></iframe>
 </body>
 </html>
